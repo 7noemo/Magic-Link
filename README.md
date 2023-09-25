@@ -8,6 +8,8 @@ You can deploy the project using Vercel, Netlify, or other Serverless services, 
 > This document was originally a supporting Chinese document for the old version of ShortUrl, now it has been modified to be used as a document for Magic-Link, and the old version of the Shortlink project will no longer provide updates except for security updates.
 > The database structure of the old version is currently not applicable to the new version of ShortUrl, the conversion tool of the old and new database structure will be available soon.
 
+## 📖 [Attention] License update
+The project was originally licensed under the GPL 2.0 license, which required users to open-source the project after modifying the source code. However, considering the practical circumstances, this license could not be applied to this project. Therefore, the project's license has been changed to the Apache-2.0 license, which is more permissive and does not require you to open-source the code after modifications. However, you are still required to retain the relevant copyright notices.
 
 ## 🎉 Features
 
