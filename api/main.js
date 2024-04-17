@@ -1,11 +1,11 @@
-// 芙桜竹 2023
-// Github fuingzu
+// 芙桜竹 2024
+// Github lilac-milena
 // Website muna.uk
 // LastUpdate: V4.28-P ITAP7
 
 const express = require('express');
 const { MongoClient } = require('mongodb');
-const request = require('request');
+const { rateLimit } = require('express-rate-limit')
 
 
 // 从环境变量中获取配置
@@ -110,7 +110,6 @@ class MunakaDatabaseFunctionsClass {
         return true
     }
     async auth(session) { // 如需修改权限验证方式请修改此函数
-        var session = JSON.parse(session)
         switch (session.type) {
             case "session":
                 if (session.session == AdminSession) {
@@ -242,10 +241,22 @@ app.all('*', function (req, res, next) {
     next();
 });
 
+const limiter = rateLimit({
+	windowMs: 1 * 60 * 1000, // 1 min
+	limit: 100, // Limit each IP to 100 requests per `window` (here, per 1 min).
+	standardHeaders: 'draft-7', // draft-6: `RateLimit-*` headers; draft-7: combined `RateLimit` header
+	legacyHeaders: false, // Disable the `X-RateLimit-*` headers.
+})
+
+// 将速率限制应用至所有 admin api 下
+app.use("/admin/api/*", limiter)
 app.get("/admin/api/*", async (req, res) => {
     let path = req.query.path
     let to = req.query.to
-    let session = req.query.session
+    let session = {
+        type: req.headers.type,
+        session: req.headers.session
+    }
 
     let apiPath = req.path
 
